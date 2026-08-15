@@ -1,0 +1,17 @@
+algorithm,average_rank
+L-SHADE,4.104
+jSO,4.354
+SHADE,4.667
+Fixed reconstruction,5.833
+Fixed transport,5.917
+Time-scheduled state,5.938
+EPLO candidate--diagnosed,6.417
+NL-SHADE-RSP,6.854
+Random state,6.979
+DE,7.042
+AOO,10.875
+OCSSA,12.000
+MPA,12.729
+BKA,12.833
+PLO,13.708
+RIME,15.750

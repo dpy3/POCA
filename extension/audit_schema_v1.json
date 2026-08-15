@@ -1,0 +1,21 @@
+{
+  "schema": "adaptive-de-audit-v1",
+  "required": [
+    "case_id", "source_id", "source_sha256", "runner_id", "task_id",
+    "dimension", "seed", "logging_mode", "target_fe", "true_fe",
+    "reported_fe", "identity", "budget", "path", "observer",
+    "replay", "runnability", "decision"
+  ],
+  "status_values": ["PASS", "FAIL", "INDETERMINATE"],
+  "decision_rule": {
+    "performance_admissible": "runnability=PASS and identity=PASS and budget=PASS and path=PASS and observer=PASS and replay=PASS",
+    "stop_on_failure": true,
+    "indeterminate_is_pass": false
+  },
+  "logging_modes": ["off", "accepted_only", "full_candidate"],
+  "trace_fields_full_candidate": [
+    "evaluation_id", "iteration", "target", "declared_source",
+    "generated_source", "evaluated_source", "accepted", "parent_cost",
+    "candidate_cost"
+  ]
+}

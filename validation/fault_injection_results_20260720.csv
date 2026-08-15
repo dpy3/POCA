@@ -1,0 +1,10 @@
+mode,expected_gate,identity_pass,budget_pass,path_pass,observer_pass,replay_pass,detected
+clean,none,1,1,1,1,1,1
+identity_name_mismatch,identity,0,1,1,1,1,1
+inherited_result_column,identity,0,1,1,1,1,1
+candidate_overwrite,path,1,1,0,1,1,1
+uncounted_auxiliary,budget,1,0,1,1,1,1
+post_reduction_counter,budget,1,0,1,1,1,1
+iteration_stop,budget,1,0,1,1,1,1
+observer_rng_interference,observer,1,1,1,0,1,1
+label_operator_mismatch,path,1,1,0,1,1,1

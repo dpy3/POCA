@@ -1,0 +1,32 @@
+{
+  "false_positive_rate": 0.0,
+  "false_positives": 0,
+  "modes": [
+    "off",
+    "accepted_only",
+    "full_candidate"
+  ],
+  "records": 45,
+  "runtime_ratio_by_mode": {
+    "accepted_only": 1.1337003821456217,
+    "full_candidate": 1.5140909998854006,
+    "off": 1.0
+  },
+  "seeds": [
+    20260731,
+    20260732,
+    20260733,
+    20260734,
+    20260735
+  ],
+  "tasks": [
+    "sphere",
+    "rosenbrock",
+    "rastrigin"
+  ],
+  "trace_bytes_by_mode": {
+    "accepted_only": 4984,
+    "full_candidate": 23357,
+    "off": 2
+  }
+}

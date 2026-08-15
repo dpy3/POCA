@@ -1,0 +1,5 @@
+evidence_set,logging_mode,runtime_ratio,trace_bytes,note
+45-record clean matrix,off,1.000,2,Median over 15 task-seed records
+45-record clean matrix,accepted-only,1.134,4984,Median over 15 task-seed records
+45-record clean matrix,full-candidate,1.514,23357,Median over 15 task-seed records
+100-pair harness,full append-only,2.151,19030,Median runtime ratio and trace for 100 evaluations

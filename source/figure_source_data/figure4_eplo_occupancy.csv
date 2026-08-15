@@ -1,0 +1,5 @@
+state,percent,scope
+Diagnosis/reconstruction,99.5,Run 1 over 24 CEC2022 function-dimension tasks
+Transient scouting,0.5,Run 1 over 24 CEC2022 function-dimension tasks
+Transport,0.0,Run 1 over 24 CEC2022 function-dimension tasks
+Contraction,0.0,Run 1 over 24 CEC2022 function-dimension tasks

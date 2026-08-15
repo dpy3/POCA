@@ -1,0 +1,58 @@
+[
+  {
+    "budget": "FAIL",
+    "case_id": "external-lshade-spacma-1.0",
+    "decision": "FAIL",
+    "dimension": 0,
+    "evidence": {
+      "budget_basis": [
+        "vectorized feval(fhd,pop') evaluates a full population batch",
+        "nfes is incremented after the batch and stops only after nfes exceeds max_nfes",
+        "there is no truncation wrapper for the final batch"
+      ],
+      "path_basis": "candidate-level provenance is not emitted by the upstream script",
+      "runnability_basis": "MATLAB failed to load cec17_func.mexw64: specified module could not be found",
+      "source_file_sha256": "b5429fb168c89cf3afc5476dbc28a891f43fef5c37d70b5fd65307ba69395562"
+    },
+    "identity": "PASS",
+    "logging_mode": "off",
+    "observer": "INDETERMINATE",
+    "path": "INDETERMINATE",
+    "replay": "INDETERMINATE",
+    "reported_fe": 0,
+    "runnability": "FAIL",
+    "runner_id": "external-smoke-v1",
+    "seed": 0,
+    "source_id": "LSHADE-SPACMA-CEC2017",
+    "source_sha256": "3bbde55b92b2e4be9bcbf957b94f5e0e9d9aa09ebad70291909c718a661d4c02",
+    "target_fe": 0,
+    "task_id": "CEC2017-source-smoke",
+    "true_fe": 0
+  },
+  {
+    "budget": "INDETERMINATE",
+    "case_id": "external-nl-shade-rsp",
+    "decision": "FAIL",
+    "dimension": 0,
+    "evidence": {
+      "dependency_present": false,
+      "performance_interpretation": "blocked until dependency-complete replay",
+      "readme_declares_dependency": true,
+      "runnability_basis": "README requires cec21_test_func.cpp, absent from frozen archive"
+    },
+    "identity": "PASS",
+    "logging_mode": "off",
+    "observer": "INDETERMINATE",
+    "path": "INDETERMINATE",
+    "replay": "INDETERMINATE",
+    "reported_fe": 0,
+    "runnability": "FAIL",
+    "runner_id": "static-source-audit-v1",
+    "seed": 0,
+    "source_id": "NL-SHADE-RSP-CEC2021",
+    "source_sha256": "aaa61f80a1358142b0c790afe539d52a1df54073c074c3ede18a01c44f4afa58",
+    "target_fe": 0,
+    "task_id": "CEC2021-source-smoke",
+    "true_fe": 0
+  }
+]

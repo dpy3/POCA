@@ -1,0 +1,36 @@
+{
+  "schema": "adaptive-de-audit-v2",
+  "required": [
+    "case_id", "source_id", "source_sha256", "runner_id", "task_id",
+    "dimension", "seed", "logging_mode", "target_fe", "true_fe",
+    "reported_fe", "runnability", "identity", "budget", "path",
+    "observer", "replay", "control", "incremental_value"
+  ],
+  "local_status_values": ["PASS", "FAIL", "INDETERMINATE", "NOT_TESTED"],
+  "derived_status_values": [
+    "PASS", "FAIL", "INDETERMINATE", "NOT_TESTED", "BLOCKED_BY_UPSTREAM"
+  ],
+  "conditions": {
+    "L0": "runnability is an upstream execution condition",
+    "V": "observer and replay are cross-cutting validity conditions for instrumented budget and path evidence",
+    "L1": "algorithm identity",
+    "L2": "independent budget identity",
+    "L3": "evaluated-path identity",
+    "L4": "control identity",
+    "L5": "incremental value"
+  },
+  "claim_rule": {
+    "execution_claim_admissible": "L0, V, L1, L2, and L3 are PASS",
+    "control_claim_admissible": "execution_claim_admissible and L4 is PASS",
+    "incremental_value_claim_admissible": "control_claim_admissible and L5 is PASS",
+    "indeterminate_is_pass": false,
+    "preserve_local_evidence_after_upstream_failure": true,
+    "protocol_invariants": {
+      "evidence_conservation": "local_status is immutable during effective-status derivation",
+      "blocking_monotonicity": "downstream observations cannot increase highest_admissible_layer while an upstream prerequisite is nonpassing",
+      "repair_isolation": "a repaired evidence object must use a new versioned case_id",
+      "idempotence": "repeated derivation returns the same effective_claim_status and highest_admissible_layer"
+    }
+  },
+  "logging_modes": ["off", "accepted_only", "full_candidate"]
+}
