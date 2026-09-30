@@ -84,14 +84,14 @@ def arrow(ax, xy0, xy1, color=C["ink"], lw=.8):
 
 
 def derive_effective(local):
-    out, blocked = [], False
-    for value in local:
-        if blocked:
-            out.append("BLOCKED")
-        else:
-            out.append(value)
-            if value != "PASS": blocked = True
-    return out
+    """Apply the instantiated DAG, rather than a linear stop-on-failure rule."""
+    l1, l2, l3, l4, l5 = local
+    q1 = l1
+    q2 = l2
+    q3 = l3
+    q4 = l4 if all(value == "PASS" for value in (q1, q2, q3)) else "BLOCKED"
+    q5 = l5 if q4 == "PASS" else "BLOCKED"
+    return [q1, q2, q3, q4, q5]
 
 
 STATUS_COLORS = {"PASS": C["teal"], "FAIL": C["red"], "INDETERMINATE": C["amber"],
@@ -167,8 +167,8 @@ def fig2():
     a.tick_params(length=0, pad=3)
     for spine in a.spines.values(): spine.set_visible(True); spine.set_color(C["light"])
     a.set_xlabel("gate receiving the injected defect")
-    panel(b, "b", "Records passing the stated contract")
-    categories = ["injected defects", "clean records", "external records"]
+    panel(b, "b", "Contract-check outcomes")
+    categories = ["injected faults rejected", "clean records without alarms", "external compatibility checks"]
     observed = [len(faults), clean["records"] - clean["false_positives"], ext["pass_count"]]
     totals = [len(faults), clean["records"], ext["record_count"]]
     y = np.arange(3)
@@ -185,7 +185,7 @@ def fig3():
     data = rows(DATA / "figure3_case_status.csv"); layers = ["L1", "L2", "L3", "L4", "L5"]
     local = [[r[x] for x in layers] for r in data]; effective = [derive_effective(x) for x in local]
     names = ["Historical EPLO", "Recovered EPLO", "Later FSDC", "QSMODE", "IDE-EDA"]
-    fig = plt.figure(figsize=(FIG_W, 4.35))
+    fig = plt.figure(figsize=(FIG_W, 3.15))
     gs = fig.add_gridspec(1, 2, width_ratios=[1, 1], left=.16, right=.985, top=.86, bottom=.24, wspace=.52)
     a, b = fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1])
     panel(a, "a", "Local audit status")
@@ -200,36 +200,26 @@ def fig3():
 
 
 def fig4():
-    occ = rows(DATA / "figure4_eplo_occupancy.csv")
-    fig = plt.figure(figsize=(FIG_W, 3.55))
-    gs = fig.add_gridspec(1, 2, width_ratios=[1.25, .95], left=.12, right=.985, top=.86, bottom=.20, wspace=.52)
-    a, b = fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1])
-    panel(a, "a", "Observed candidate occupancy")
-    vals = {r["state"]: float(r["percent"]) for r in occ}
-    labels = ["diagnosis / reconstruction", "transient scouting", "transport", "contraction"]
-    values = [vals["Diagnosis/reconstruction"], vals["Transient scouting"], vals["Transport"], vals["Contraction"]]
-    y = np.arange(4)
-    a.barh(y, values, color=[C["teal"], C["amber"], "#C8CED2", "#C8CED2"], height=.55)
-    for yy, v in zip(y, values): a.text(max(v + 1.2, 1.2), yy, f"{v:.1f}%", va="center", fontsize=8.0)
-    a.set_yticks(y, labels); a.set_xlim(0, 108); a.set_xlabel("assignments (%)"); axis_clean(a, left=True, bottom=True)
-    panel(b, "b", "Declared versus evaluated path")
-    # Short stage labels keep the table readable at journal column width; the
-    # full semantics are stated in the caption and source data.
-    columns = ["stats", "state", "candidate", "objective", "selection"]
-    declared = ["statistics", "diagnosis", "state\ncandidate", "objective", "selection"]
-    realized = ["statistics", "candidate", "rand/1/\nbin", "objective", "selection"]
-    b.set_xlim(-.5, 4.5); b.set_ylim(1.5, -.5); b.set_aspect("auto")
+    fig = plt.figure(figsize=(FIG_W, 2.35))
+    b = fig.add_axes([.10, .22, .885, .61])
+    panel(b, "", "Candidate replacement: declared mechanism versus observed execution")
+    # Short stage labels preserve legibility at manuscript width; the caption
+    # defines the scientific boundary of this diagnostic trace.
+    columns = ["stats", "state", "candidate", "replacement", "evaluation", "selection"]
+    declared = ["field\nstatistics", "state\ndiagnosis", "state-specific\ncandidate", "none", "evaluated\ncandidate", "selection"]
+    realized = ["field\nstatistics", "state\ndiagnosis", "state-specific\ncandidate", "replaced by\nrand/1/bin", "evaluated\ncandidate", "selection"]
+    b.set_xlim(-.5, 5.5); b.set_ylim(1.5, -.5); b.set_aspect("auto")
     for yy in range(2):
-        for xx in range(5):
+        for xx in range(6):
             b.add_patch(Rectangle((xx - .5, yy - .5), 1, 1,
                                   facecolor="#F4F5F6", edgecolor="none", zorder=0))
-    for x in range(6): b.axvline(x - .5, color=C["light"], lw=.7)
+    for x in range(7): b.axvline(x - .5, color=C["light"], lw=.7)
     for yline in range(3): b.axhline(yline - .5, color=C["light"], lw=.7)
     for x, (d, r) in enumerate(zip(declared, realized)):
         b.text(x, 0, d, ha="center", va="center", fontsize=7.6, linespacing=.95)
         b.text(x, 1, r, ha="center", va="center", fontsize=7.6, linespacing=.95,
-               color=C["red"] if x == 2 else C["ink"], fontweight="bold" if x == 2 else "normal")
-    b.set_xticks(range(5), columns); b.set_yticks([0, 1], ["declared", "evaluated"]); b.tick_params(length=0, pad=4)
+                color=C["red"] if x == 3 else C["ink"], fontweight="bold" if x == 3 else "normal")
+    b.set_xticks(range(6), columns); b.set_yticks([0, 1], ["declared mechanism", "observed execution"]); b.tick_params(length=0, pad=4)
     for spine in b.spines.values(): spine.set_visible(True); spine.set_color(C["light"])
     save(fig, "figure3_eplo_execution_path")
 
@@ -273,7 +263,7 @@ def fig6():
     for i, v in enumerate(runtime): a.text(i, v + .035, f"{v:.3f}×", ha="center", fontsize=8.0)
     panel(b, "b", "Serialized trace footprint")
     b.bar(range(3), sizes, color=colors, width=.62, edgecolor="none")
-    b.set_yscale("log"); b.set_xticks(range(3), labels); b.set_ylabel("median bytes"); axis_clean(b, left=True, bottom=True)
+    b.set_yscale("log"); b.set_xticks(range(3), labels); b.set_ylabel("median serialized trace size (bytes, log scale)"); axis_clean(b, left=True, bottom=True)
     for i, v in enumerate(sizes): b.text(i, v * 1.35, f"{int(v):,}", ha="center", fontsize=8.0)
     save(fig, "figure5_instrumentation_cost")
 

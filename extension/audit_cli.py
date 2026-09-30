@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Minimal, dependency-free evaluator for adaptive-DE audit records."""
+"""Legacy v1 compatibility evaluator for adaptive-DE audit records.
+
+This module is retained for backward-compatible regression tests. Its linear
+``performance_admissible`` output is not the POCA v3 DAG semantics; use
+``audit_cli_v2.py`` for the claim frontier and effective-status derivation.
+"""
 
 import argparse
 import json

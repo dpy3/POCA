@@ -1,5 +1,5 @@
 {
-  "schema": "adaptive-de-audit-v2",
+  "schema": "poca-v3-audit",
   "required": [
     "case_id", "source_id", "source_sha256", "runner_id", "task_id",
     "dimension", "seed", "logging_mode", "target_fe", "true_fe",
@@ -7,29 +7,36 @@
     "observer", "replay", "control", "incremental_value"
   ],
   "local_status_values": ["PASS", "FAIL", "INDETERMINATE", "NOT_TESTED"],
-  "derived_status_values": [
-    "PASS", "FAIL", "INDETERMINATE", "NOT_TESTED", "BLOCKED_BY_UPSTREAM"
-  ],
-  "conditions": {
-    "L0": "runnability is an upstream execution condition",
-    "V": "observer and replay are cross-cutting validity conditions for instrumented budget and path evidence",
-    "L1": "algorithm identity",
-    "L2": "independent budget identity",
-    "L3": "evaluated-path identity",
-    "L4": "control identity",
-    "L5": "incremental value"
+  "derived_status_values": ["PASS", "FAIL", "INDETERMINATE", "NOT_TESTED", "BLOCKED_BY_UPSTREAM"],
+  "nodes": {
+    "L0": "execution feasibility",
+    "L1": "result provenance",
+    "L2": "evaluator-boundary budget identity",
+    "L3": "evaluated-candidate lineage",
+    "L4": "control comparability",
+    "L5": "incremental value",
+    "VO": "observer non-interference",
+    "VR": "replay validity"
+  },
+  "default_graph": {
+    "edges": [
+      ["L0", "L1"], ["L0", "L2"], ["VO", "L2"],
+      ["L0", "L3"], ["VO", "L3"],
+      ["L0", "L4"], ["L1", "L4"], ["L2", "L4"], ["L3", "L4"],
+      ["L4", "L5"]
+    ]
   },
   "claim_rule": {
-    "execution_claim_admissible": "L0, V, L1, L2, and L3 are PASS",
-    "control_claim_admissible": "execution_claim_admissible and L4 is PASS",
-    "incremental_value_claim_admissible": "control_claim_admissible and L5 is PASS",
+    "effective_status": "A node is BLOCKED_BY_UPSTREAM iff at least one predecessor has non-PASS effective status; otherwise its local status is preserved.",
+    "claim_frontier": "All maximal substantive claim nodes (L1-L5; L0 is the execution-feasibility root) with effective PASS status are reported; incomparable branches are retained.",
+    "minimal_blockers": "For each blocked node, report the closest non-PASS local ancestors and retain all incomparable blockers.",
     "indeterminate_is_pass": false,
     "preserve_local_evidence_after_upstream_failure": true,
     "protocol_invariants": {
-      "evidence_conservation": "local_status is immutable during effective-status derivation",
-      "blocking_monotonicity": "downstream observations cannot increase highest_admissible_layer while an upstream prerequisite is nonpassing",
-      "repair_isolation": "a repaired evidence object must use a new versioned case_id",
-      "idempotence": "repeated derivation returns the same effective_claim_status and highest_admissible_layer"
+      "evidence_conservation": "local evidence is immutable during effective-status derivation",
+      "blocking_monotonicity": "adding downstream observations cannot promote a descendant claim while any transitive prerequisite of that descendant remains non-PASS; independent branches are not constrained",
+      "versioned_repair_record": "a repair record must carry a version identifier; cross-record uniqueness and parent-object linkage are repository-level checks",
+      "idempotence": "repeated derivation on the same graph and local vector returns the same result"
     }
   },
   "logging_modes": ["off", "accepted_only", "full_candidate"]

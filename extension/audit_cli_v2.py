@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate local audit evidence and derive prerequisite-ordered claim status."""
+"""POCA v3 DAG evaluator for prerequisite-ordered claim admissibility."""
 
 import argparse
 import json
@@ -14,105 +14,209 @@ REQUIRED = {
 }
 LOCAL_STATUS = {"PASS", "FAIL", "INDETERMINATE", "NOT_TESTED"}
 BLOCKED = "BLOCKED_BY_UPSTREAM"
+DEFAULT_GRAPH = {
+    "nodes": {
+        "L0": "execution_feasibility", "L1": "result_provenance",
+        "L2": "evaluator_boundary_budget_identity",
+        "L3": "evaluated_candidate_lineage", "L4": "control_comparability",
+        "L5": "incremental_value", "VO": "observer_non_interference",
+        "VR": "replay_validity",
+    },
+    "edges": [["L0", "L1"], ["L0", "L2"], ["VO", "L2"],
+              ["L0", "L3"], ["VO", "L3"],
+              ["L0", "L4"], ["L1", "L4"], ["L2", "L4"], ["L3", "L4"],
+              ["L4", "L5"]],
+}
+FIELD_TO_NODE = {"runnability": "L0", "identity": "L1", "budget": "L2",
+                 "path": "L3", "control": "L4", "incremental_value": "L5",
+                 "observer": "VO", "replay": "VR"}
+NODE_ORDER = ["L0", "L1", "L2", "L3", "L4", "L5"]
 
 
-def _effective(local_value, prerequisites):
-    """Return local status only when every prerequisite has passed."""
-    if all(value == "PASS" for value in prerequisites):
-        return local_value
-    return BLOCKED
+def _graph(record):
+    graph = record.get("graph", DEFAULT_GRAPH)
+    if not isinstance(graph, dict) or not isinstance(graph.get("nodes"), dict):
+        raise ValueError("graph.nodes must be an object")
+    edges = graph.get("edges", [])
+    nodes = set(graph["nodes"])
+    if any(not isinstance(edge, list) or len(edge) != 2 or
+           edge[0] not in nodes or edge[1] not in nodes for edge in edges):
+        raise ValueError("graph.edges must contain valid [predecessor, successor] pairs")
+    indegree = {node: 0 for node in nodes}
+    children = {node: [] for node in nodes}
+    for parent, child in edges:
+        indegree[child] += 1
+        children[parent].append(child)
+    queue = [node for node, degree in indegree.items() if degree == 0]
+    visited = []
+    while queue:
+        node = queue.pop(0)
+        visited.append(node)
+        for child in children[node]:
+            indegree[child] -= 1
+            if indegree[child] == 0:
+                queue.append(child)
+    if len(visited) != len(nodes):
+        raise ValueError("graph must be acyclic")
+    return {"nodes": dict(graph["nodes"]), "edges": [list(edge) for edge in edges]}
 
 
-def _derive_effective(local):
-    """Derive POCA effective statuses from an immutable local-status vector."""
-    l0 = local["runnability"]
-    l1 = _effective(local["identity"], [l0])
-    validity = [local["observer"], local["replay"]]
-    l2 = _effective(local["budget"], [l0, l1, *validity])
-    l3 = _effective(local["path"], [l0, l1, l2, *validity])
-    l4 = _effective(local["control"], [l0, l1, l2, l3, *validity])
-    l5 = _effective(local["incremental_value"],
-                    [l0, l1, l2, l3, l4, *validity])
-    return {
-        "L0_runnability": l0,
-        "L1_identity": l1,
-        "L2_budget": l2,
-        "L3_path": l3,
-        "L4_control": l4,
-        "L5_incremental_value": l5,
-    }
+def _ancestors(node, parents):
+    found = set()
+    stack = list(parents.get(node, ()))
+    while stack:
+        current = stack.pop()
+        if current in found:
+            continue
+        found.add(current)
+        stack.extend(parents.get(current, ()))
+    return found
+
+
+def _derive_effective(local, graph=None):
+    """Evaluate every node by topological traversal without overwriting local evidence."""
+    graph = graph or DEFAULT_GRAPH
+    nodes, edges = graph["nodes"], graph["edges"]
+    parents = {node: [] for node in nodes}
+    children = {node: [] for node in nodes}
+    for parent, child in edges:
+        parents[child].append(parent)
+        children[parent].append(child)
+    indegree = {node: len(parents[node]) for node in nodes}
+    queue = [node for node in nodes if indegree[node] == 0]
+    effective = {}
+    while queue:
+        node = queue.pop(0)
+        local_value = local.get(node)
+        prerequisites = [effective[parent] for parent in parents[node]]
+        effective[node] = (local_value if all(value == "PASS" for value in prerequisites)
+                           else BLOCKED)
+        for child in children[node]:
+            indegree[child] -= 1
+            if indegree[child] == 0:
+                queue.append(child)
+    return effective
+
+
+def _minimal_blockers(target, local, graph):
+    parents = {node: [] for node in graph["nodes"]}
+    children = {node: [] for node in graph["nodes"]}
+    for parent, child in graph["edges"]:
+        parents[child].append(parent)
+        children[parent].append(child)
+    bad = {node for node in _ancestors(target, parents)
+           if local.get(node) in LOCAL_STATUS - {"PASS"}}
+    def descendants(node):
+        found, stack = set(), list(children.get(node, ()))
+        while stack:
+            current = stack.pop()
+            if current in found:
+                continue
+            found.add(current)
+            stack.extend(children.get(current, ()))
+        return found
+    return sorted(node for node in bad if not (bad & descendants(node)))
+
+
+def _frontier(effective, graph):
+    # L0 is the feasibility root; VO and VR are auxiliary validity records.
+    # All other graph nodes are claim nodes, including schema-compatible custom IDs.
+    substantive = [node for node in graph["nodes"] if node not in {"L0", "VO", "VR"}]
+    admissible = {node for node in substantive if effective.get(node) == "PASS"}
+    children = {node: [] for node in graph["nodes"]}
+    for parent, child in graph["edges"]:
+        children[parent].append(child)
+    return sorted(node for node in admissible if not any(child in admissible for child in children[node]))
+
+
+def _blocking_monotone(local, graph, effective):
+    """Downstream PASS observations cannot promote claims behind a failed ancestor."""
+    parents = {node: [] for node in graph["nodes"]}
+    children = {node: [] for node in graph["nodes"]}
+    for parent, child in graph["edges"]:
+        parents[child].append(parent)
+        children[parent].append(child)
+    for failed in (node for node in graph["nodes"] if local.get(node) != "PASS"):
+        changed = dict(local)
+        stack = list(children[failed])
+        while stack:
+            node = stack.pop()
+            changed[node] = "PASS"
+            stack.extend(children[node])
+        revised = _derive_effective(changed, graph)
+        for node in _ancestors(failed, parents):
+            if effective.get(node) == BLOCKED and revised.get(node) == "PASS":
+                return False
+        descendants = set()
+        stack = list(children[failed])
+        while stack:
+            node = stack.pop()
+            if node in descendants:
+                continue
+            descendants.add(node)
+            stack.extend(children[node])
+        for node in descendants:
+            if effective.get(node) == BLOCKED and revised.get(node) == "PASS":
+                return False
+    return True
 
 
 def evaluate(record):
     missing = sorted(REQUIRED - record.keys())
     if missing:
         raise ValueError("missing fields: " + ", ".join(missing))
-
-    local = {
-        key: record[key]
-        for key in (
-            "runnability", "identity", "budget", "path", "observer",
-            "replay", "control", "incremental_value"
-        )
-    }
-    invalid = {key: value for key, value in local.items()
-               if value not in LOCAL_STATUS}
+    graph = _graph(record)
+    local = {node: record[field] for field, node in FIELD_TO_NODE.items()}
+    if isinstance(record.get("local_status"), dict):
+        local.update(record["local_status"])
+    missing_local = sorted(node for node in graph["nodes"] if node not in local)
+    if missing_local:
+        raise ValueError("missing local statuses for graph nodes: " + ", ".join(missing_local))
+    invalid = {node: value for node, value in local.items()
+               if node in graph["nodes"] and value not in LOCAL_STATUS}
     if invalid:
-        raise ValueError("invalid local statuses: "
-                         + json.dumps(invalid, sort_keys=True))
-
+        raise ValueError("invalid local statuses: " + json.dumps(invalid, sort_keys=True))
     for field in ("target_fe", "true_fe", "reported_fe"):
         if record[field] < 0:
             raise ValueError(f"{field} must be non-negative")
-
-    effective = _derive_effective(local)
-    l0 = effective["L0_runnability"]
-    l2 = effective["L2_budget"]
-    l3 = effective["L3_path"]
-    l4 = effective["L4_control"]
-    l5 = effective["L5_incremental_value"]
-    ordered = list(effective.items())
-    highest = "NONE"
-    for name, value in ordered:
-        if value != "PASS":
-            break
-        highest = name
-
-    blocking = []
-    for key, value in local.items():
-        if value != "PASS":
-            blocking.append({"condition": key, "status": value})
-
-    execution_admissible = l3 == "PASS"
-    control_admissible = execution_admissible and l4 == "PASS"
-    incremental_admissible = control_admissible and l5 == "PASS"
-
-    repeated_effective = _derive_effective(dict(local))
-    downstream_local = dict(local)
-    downstream_local["control"] = "PASS"
-    downstream_local["incremental_value"] = "PASS"
-    downstream_effective = _derive_effective(downstream_local)
+    effective = _derive_effective(local, graph)
+    frontier = _frontier(effective, graph)
+    blockers = {node: _minimal_blockers(node, local, graph)
+                for node in graph["nodes"] if effective.get(node) == BLOCKED}
+    downstream = dict(local)
     protocol_properties = {
-        "evidence_conservation": local == {
-            key: local[key] for key in local
+        "evidence_conservation": all(node in local for node in graph["nodes"]),
+        "idempotence": _derive_effective(dict(local), graph) == effective,
+        "blocking_monotonicity": _blocking_monotone(local, graph, effective),
+        "versioned_repair_record": {
+            "required": True,
+            "case_id_versioned": bool(record.get("case_id_version")),
         },
-        "idempotence": repeated_effective == effective,
-        "blocking_monotonicity": (
-            effective["L4_control"] != "PASS"
-            or downstream_effective["L4_control"] == effective["L4_control"]
-        ),
-        "repair_isolation": "enforced_by_new_versioned_case_id",
     }
-
+    canonical = all(node in graph["nodes"]
+                    for node in ("L0", "L1", "L2", "L3", "L4", "L5"))
     return {
-        "case_id": record["case_id"],
-        "local_status": local,
+        "case_id": record["case_id"], "graph": graph,
+        "local_status": {node: local[node] for node in graph["nodes"] if node in local},
         "effective_claim_status": effective,
-        "highest_admissible_layer": highest,
-        "execution_claim_admissible": execution_admissible,
-        "control_claim_admissible": control_admissible,
-        "incremental_value_claim_admissible": incremental_admissible,
-        "blocked_by": blocking,
+        "claim_frontier": frontier,
+        # These summaries have canonical POCA meanings only. A custom graph
+        # still returns node-level statuses/frontier/blockers, but does not
+        # silently inherit L0-L5 semantics.
+        "execution_claim_admissible": (all(effective.get(node) == "PASS"
+                                            for node in ("L0", "L1", "L2", "L3"))
+                                        if canonical else None),
+        "control_claim_admissible": (all(effective.get(node) == "PASS"
+                                          for node in ("L0", "L1", "L2", "L3", "L4"))
+                                      if canonical else None),
+        "incremental_value_claim_admissible": (all(effective.get(node) == "PASS"
+                                                    for node in ("L0", "L1", "L2", "L3", "L4", "L5"))
+                                                if canonical else None),
+        "minimal_blockers": blockers,
+        "blocked_by": [{"condition": node, "status": local[node]}
+                       for node in graph["nodes"] if local[node] != "PASS"],
+        "blocked_promotion_cases": [node for node in graph["nodes"]
+                                           if local.get(node) == "PASS" and effective.get(node) == BLOCKED],
         "protocol_properties": protocol_properties,
     }
 

@@ -1,0 +1,33 @@
+{
+  "version": "poca-v3",
+  "nodes": {
+    "L0": "execution_feasibility",
+    "L1": "result_provenance",
+    "L2": "evaluator_boundary_budget_identity",
+    "L3": "evaluated_candidate_lineage",
+    "L4": "control_comparability",
+    "L5": "incremental_value",
+    "VO": "observer_non_interference",
+    "VR": "replay_validity"
+  },
+  "edges": [
+    ["L0", "L1"], ["L0", "L2"], ["VO", "L2"],
+    ["L0", "L3"], ["VO", "L3"],
+    ["L0", "L4"], ["L1", "L4"], ["L2", "L4"], ["L3", "L4"],
+    ["L4", "L5"]
+  ],
+  "edge_rationale": {
+    "L0->L1": "source attribution requires a runnable evidence object",
+    "L0->L2": "budget identity is uninterpretable for a non-runnable object",
+    "VO->L2": "evaluator-boundary counts depend on an intact observer",
+    "L0->L3": "candidate lineage requires an executable path",
+    "VO->L3": "candidate links depend on an intact observer",
+    "L0->L4": "controls require executable treatment and comparator paths",
+    "L1->L4": "control differences require source/result attribution",
+    "L2->L4": "controlled comparisons require an equal evaluator budget",
+    "L3->L4": "controls cannot isolate a mechanism whose evaluated candidate is unknown",
+    "L4->L5": "incremental value requires a valid controlled comparison"
+  },
+  "local_status": ["PASS", "FAIL", "INDETERMINATE", "NOT_TESTED"],
+  "blocked_status": "BLOCKED_BY_UPSTREAM"
+}

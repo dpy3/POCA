@@ -74,7 +74,7 @@ def figure1():
            color=C["muted"], linespacing=1.2)
 
     b.set_axis_off(); b.set_xlim(0, 1); b.set_ylim(0, 1)
-    b.set_title("Claim depth advances only after prerequisite passage", loc="left", pad=5)
+    b.set_title("Claim frontier advances only after prerequisite passage", loc="left", pad=5)
     panel_rule(b)
     levels = [("L0", "Run"), ("L1", "Algorithm identity"), ("L2", "Budget identity"),
               ("L3", "Evaluated path"), ("L4", "Control identity"),
@@ -133,11 +133,11 @@ def figure2():
     for ax, label in zip((a, b, c, d), "abcd"): panel_label(ax, label)
 
     a.set_axis_off(); a.set_xlim(0, 1); a.set_ylim(0, 1)
-    a.set_title("Bounded validation summary", loc="left")
+    a.set_title("Contract-level regression summary", loc="left")
     panel_rule(a)
     metrics = [("8/8", "preregistered defects", "detected", C["fail"]),
                ("0/45", "clean records", "observed alarms", C["pass"]),
-               ("9/9", "external records", "exact audits", C["observer"])]
+               ("9/9", "external records", "adapter checks", C["observer"])]
     for i, (value, unit, outcome, color) in enumerate(metrics):
         x = 0.045 + i * 0.335
         rounded_card(a, (x - 0.018, 0.08), 0.285, 0.72,
@@ -186,7 +186,7 @@ def figure2():
     checks = list(ext["records"][0]["checks"].keys())
     check_labels = [x.replace("_", " ") for x in checks]
     d.set_axis_off(); d.set_xlim(0, 1); d.set_ylim(0, 1)
-    d.set_title("External L-SHADE: 9/9 exact checks", loc="left", pad=5)
+    d.set_title("External L-SHADE: 9/9 adapter checks", loc="left", pad=5)
     panel_rule(d)
     xx = [0.08, 0.40, 0.72]; yy = [0.70, 0.43, 0.16]
     for index, label in enumerate(check_labels):
@@ -199,14 +199,12 @@ def figure2():
 
 
 def derive_effective(local):
-    out, blocked = [], False
-    for value in local:
-        if blocked:
-            out.append("BLOCKED")
-        else:
-            out.append(value)
-            if value != "PASS": blocked = True
-    return out
+    """Apply the instantiated DAG, rather than a linear stop-on-failure rule."""
+    l1, l2, l3, l4, l5 = local
+    q1, q2, q3 = l1, l2, l3
+    q4 = l4 if all(value == "PASS" for value in (q1, q2, q3)) else "BLOCKED"
+    q5 = l5 if q4 == "PASS" else "BLOCKED"
+    return [q1, q2, q3, q4, q5]
 
 
 def status_matrix(ax, matrix, names, layers):
@@ -246,7 +244,7 @@ def figure3():
                           hspace=0.38, wspace=0.43)
     a = fig.add_subplot(gs[:, 0]); b = fig.add_subplot(gs[0, 1]); c = fig.add_subplot(gs[1, 1])
     for ax, label in zip((a, b, c), "abc"): panel_label(ax, label)
-    a.set_title("Highest admissible layer for each evidence object", loc="left")
+    a.set_title("Admissible frontier for each evidence object", loc="left")
     panel_rule(a)
     terminals = ["provenance stop", "path stop", "value stop", "budget stop", "budget stop"]
     for y, (x, terminal) in enumerate(zip(highest, terminals)):
@@ -255,7 +253,7 @@ def figure3():
         a.text(x + 0.12, y, terminal, va="center", fontsize=6.0, color=C["muted"])
     a.set_yticks(range(5), names); a.set_xticks(range(6), ["L0", "L1", "L2", "L3", "L4", "L5"])
     a.set_xlim(-0.35, 5.55); a.set_ylim(4.6, -0.6)
-    a.set_xlabel("Admissible depth (not a performance rank)")
+    a.set_xlabel("Claim layers reached (not a performance rank)")
     for x in range(6): a.axvline(x, color=C["grid"], lw=0.65, zorder=0)
     minimal_axis(a, bottom=True)
 
