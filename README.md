@@ -6,7 +6,7 @@ POCA does not run an optimizer, collect execution traces, enforce function-evalu
 
 ## Release status
 
-This source tree is the POCA v0.1.1 patch release prepared for the accompanying SoftwareX manuscript. It is based on public dpy3/POCA main commit 138aa27 (30 September 2026); the previously listed f3dbf12 base could not be verified in public history and is not claimed. The release includes the evaluator, tests, validation records, and manuscript-aligned package layout described in RELEASE_CANDIDATE_MANIFEST.txt. This patch corrects manifest checksums to match the exact file bytes in the Git tree; v0.1.0 remains an earlier tag. The exact source snapshot is identified by Git tag v0.1.1. No DOI-backed reproducibility capsule has been deposited. The companion manuscript is a SoftwareX draft and has not been submitted.
+This source tree is the POCA v0.1.1 patch release prepared for the accompanying SoftwareX manuscript. It is based on public dpy3/POCA main commit 138aa27 (30 September 2026); the previously listed f3dbf12 base could not be verified in public history and is not claimed. The release includes the evaluator, tests, validation records, and manuscript-aligned package layout described in RELEASE_CANDIDATE_MANIFEST.txt. This patch standardizes manifest hashes by normalizing text line endings to LF while hashing binary files as exact bytes; v0.1.0 remains an earlier tag. The exact source snapshot is identified by Git tag v0.1.1. No DOI-backed reproducibility capsule has been deposited. The companion manuscript is a SoftwareX draft and has not been submitted.
 
 ## Requirements
 
