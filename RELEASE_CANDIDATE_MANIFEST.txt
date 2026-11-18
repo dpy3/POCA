@@ -1,8 +1,8 @@
-POCA SoftwareX v0.1.0 release manifest
-Release identifier: Git tag v0.1.0
+POCA SoftwareX v0.1.1 release manifest
+Release identifier: Git tag v0.1.1; patch release correcting hashes to match Git tree bytes
 Public comparison target: dpy3/POCA main commit 138aa27 (30 September 2026; checked 18 November 2026)
-Candidate provenance: release branch based on public main; f3dbf12 is absent from the checked public history and is not asserted.
-Content delta: the evaluator and its v2 regression test contain a local blocker-selection correction and queue implementation change. Shared result, schema, preregistration, and validation files were compared with line endings normalized; the candidate also moves extension/ to src/, omits withdrawn rank/EPLO figure inputs and old umbrella plotting scripts, and includes current manuscript figures and a branching example.
+Release provenance: branch based on public main 138aa27; f3dbf12 is absent from the checked public history and is not asserted.
+Content delta: v0.1.1 corrects the SHA-256 entries to match the exact Git tree bytes used by GitHub archives. It retains the evaluator queue and upstream-minimal blocker correction, moves extension/ to src/, omits withdrawn rank/EPLO inputs and old umbrella plotting scripts, and includes current manuscript figures and the branching example.
 Created: 2026-11-18
 
 SHA-256 (file then relative path):
@@ -11,13 +11,13 @@ cd3fafcadf505d97beb17117667ee0bab841d006a096ded2f5f6829ff7709e63  src/audit_cli_
 4edbcc8e5fce6c98ad6b07cbda2b217d1300c793bf95dc6a146b9f9369d935b0  examples/branching_case.json
 595ec35e46de61c03c9084cf88c056e61369753fb881d9570a0a77df23cbb6e0  spec/poca_v3.json
 90cc572d1f9b0a1da65237e1cdd898cf0c745094ccc138d9527385f875ac447c  LICENSE.txt
-91a6efc90948e6a940de3b7f6e1dee4523a467190d83c79eecb1c1626fe6e467  README.md
+ba3f5c1ef29b528012b1c2476b0dc0555996ac207470e89e68fd62013a21de89  README.md
 37e15bddaf79e05000e134555766c075d2bf5aa6019a0c63ec2d1da40094b0d2  source/README.md
-fd25651e79bdb57b25e6ea80ae40dd7aa88e76625af486840bd89fe27dec99e2  source/figures/figure2_candidate_lineage.svg
+aa14684d720407be56529b9803a23c1638d3b7c5849b64132130577c226266dc  source/figures/figure2_candidate_lineage.svg
 be12e7bacc5bed19de4648a28b55b5d7ebec07ce3aa73a3c4cc939180ddcd9c9  source/figures/figure2_candidate_lineage.pdf
-df04ba200f3f9570d4e89ce66933b7e6e7afa2a1335fd9dd71b6d74b6ddffae8  source/figures/figure3_case_status.svg
+369c62afca21abd34aa5cae8a4719fef88af56fa08a93c806eec4ce97359b816  source/figures/figure3_case_status.svg
 9d74bc74c5e36849753eb6fe3871c9d89314aeb80093e4f204c90cacb86b1a71  source/figures/figure3_case_status.pdf
-12e77f1ddb14144de7cea1f478fb2cdc33cf5849a7f5516d7b7fcfca41a22964  source/figures/figure4_instrumentation_cost.svg
+2ab0f72475d7defdb73a3a428ce9092f10c0d01309b0c38428efd46ae74bf30e  source/figures/figure4_instrumentation_cost.svg
 cf82b4aeea300d502246c005a3e4744bff414e79c39470babce8bae091524383  source/figures/figure4_instrumentation_cost.pdf
 3dd4e52d4fada46081bb9cf3164ca8b4bcb1f6b22dda40e6b9cf9f9140993bfa  source/figure_source_data/figure3_case_status.csv
 2886d53a76aa985225bb643a02464a099fadff2dc7ea61c9b28cb0ec1e2caf48  source/figure_source_data/figure4_instrumentation_cost.csv
