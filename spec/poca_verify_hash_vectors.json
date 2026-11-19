@@ -1,0 +1,48 @@
+{
+  "schema_version": "poca-verify-hash-vectors-1.0",
+  "text_normalization": "Strict UTF-8 bytes; CRLF and bare CR become LF; no Unicode normalization; preserve BOM.",
+  "vectors": [
+    {
+      "id": "text-lf",
+      "hash_mode": "text-lf-v1",
+      "input_hex": "616c7068610a626574610a",
+      "normalized_hex": "616c7068610a626574610a",
+      "sha256": "e49c81e2d2f84e259d40e2fb8192f3bcd198b355184845d76d8f58807d0d78ee"
+    },
+    {
+      "id": "text-crlf-equivalent",
+      "hash_mode": "text-lf-v1",
+      "input_hex": "616c7068610d0a626574610d0a",
+      "normalized_hex": "616c7068610a626574610a",
+      "sha256": "e49c81e2d2f84e259d40e2fb8192f3bcd198b355184845d76d8f58807d0d78ee"
+    },
+    {
+      "id": "text-bare-cr-equivalent",
+      "hash_mode": "text-lf-v1",
+      "input_hex": "616c7068610d626574610d",
+      "normalized_hex": "616c7068610a626574610a",
+      "sha256": "e49c81e2d2f84e259d40e2fb8192f3bcd198b355184845d76d8f58807d0d78ee"
+    },
+    {
+      "id": "text-bom-preserved",
+      "hash_mode": "text-lf-v1",
+      "input_hex": "efbbbf616c7068610d0a626574610d0a",
+      "normalized_hex": "efbbbf616c7068610a626574610a",
+      "sha256": "bf7a11618542a830d64e5aeb970f1c6cc67cfce607ced9603efb2a696b9b2160"
+    },
+    {
+      "id": "binary-exact-a",
+      "hash_mode": "binary-exact-v1",
+      "input_hex": "00ff10",
+      "normalized_hex": "00ff10",
+      "sha256": "2da45f2cd1f9c8e69a67abf7a6b26c282533d0a7686787a9533265418680d4d2"
+    },
+    {
+      "id": "binary-exact-one-byte-change",
+      "hash_mode": "binary-exact-v1",
+      "input_hex": "00ff11",
+      "normalized_hex": "00ff11",
+      "sha256": "30839c5ca1457fbfcc1eb092105577319fe48cb01ba11aee56736d17f2d2d406"
+    }
+  ]
+}

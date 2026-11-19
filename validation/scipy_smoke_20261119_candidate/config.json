@@ -1,0 +1,14 @@
+{
+  "atol": 0.0,
+  "budget_policy": "upper_bound",
+  "init": "latinhypercube-default",
+  "maxiter": 3,
+  "polish": false,
+  "popsize": 4,
+  "seed": 20261119,
+  "strategy": "best1bin-default",
+  "tol": 0.0,
+  "updating": "deferred",
+  "vectorized": false,
+  "workers": 1
+}

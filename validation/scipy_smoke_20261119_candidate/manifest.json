@@ -1,0 +1,83 @@
+{
+  "artifacts": [
+    {
+      "hash_mode": "text-lf-v1",
+      "path": "objective_spec.json",
+      "role": "source",
+      "sha256": "acd01cc99ec6c67d8983d6cb6d8e275fcdb99275d4ce12445f225ff54e122c7a"
+    },
+    {
+      "hash_mode": "text-lf-v1",
+      "path": "runner.py",
+      "role": "runner",
+      "sha256": "3f00ab5dbe79ba49bcaf454821bca468f5dc662c0b3a46a165f4f260cfabe1ec"
+    },
+    {
+      "hash_mode": "text-lf-v1",
+      "path": "config.json",
+      "role": "configuration",
+      "sha256": "1f0a6e2b70bb1a7400f03edcef09a27cdb108ee9d4c94eeca524159a45518dd5"
+    },
+    {
+      "hash_mode": "text-lf-v1",
+      "path": "results.csv",
+      "role": "results",
+      "sha256": "9587c4969bf369d8cedc1382afdeb9848a35486a284f02bf5cb77a34d678de34"
+    },
+    {
+      "hash_mode": "text-lf-v1",
+      "path": "calls.jsonl",
+      "role": "call_log",
+      "sha256": "882cb4565744621b9e25c06d189f810fef13558c965658441de7f8f0d1683e6c"
+    }
+  ],
+  "call_log_path": "calls.jsonl",
+  "campaign_id": "scipy-smoke-20261119",
+  "engine": {
+    "name": "scipy.optimize.differential_evolution",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.7",
+    "version": "1.16.2"
+  },
+  "results": {
+    "columns": {
+      "campaign_id_column": "campaign_id",
+      "dimension_column": "dimension",
+      "logging_mode_column": "logging_mode",
+      "reported_fe_column": "reported_fe",
+      "result_row_id_column": "result_row_id",
+      "run_id_column": "run_id",
+      "run_status_column": "run_status",
+      "runner_id_column": "runner_id",
+      "seed_column": "seed",
+      "solver_nfev_column": "solver_nfev",
+      "solver_nfev_required": true,
+      "source_id_column": "source_id",
+      "source_sha256_column": "source_sha256",
+      "target_fe_column": "target_fe",
+      "task_id_column": "task_id"
+    },
+    "files": [
+      {
+        "path": "results.csv"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "budget_policy": "upper_bound",
+      "requested_checks": {
+        "observer": false,
+        "path": true,
+        "replay": false
+      },
+      "result_row_id": "scipy-row-logged",
+      "results_path": "results.csv",
+      "run_id": "scipy-smoke-logged",
+      "runner_id": "poca-scipy-smoke-v1",
+      "source_id": "sphere-objective-spec-v1",
+      "source_path": "objective_spec.json"
+    }
+  ],
+  "schema_version": "poca-verify-1.0"
+}

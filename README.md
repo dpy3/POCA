@@ -2,11 +2,11 @@
 
 POCA is a Python command-line program for interpreting structured audit records from optimization experiments. It keeps each supplied local check visible, applies a user-declared acyclic dependency graph, and reports effective claim statuses, an admissible-claim frontier, and upstream blockers.
 
-POCA does not run an optimizer, collect execution traces, enforce function-evaluation budgets, or establish that an adapter or dependency graph is correct. Its output depends on the supplied record and declared graph. The accompanying manuscript evaluates bounded differential-evolution cases and does not claim general detection accuracy, cross-domain transfer, causal attribution, or optimizer superiority.
+POCA does not run or control an optimizer, expose a complete execution trace, authenticate a manifest, or establish that an adapter or dependency graph is correct. The v0.2.0 release adds checks for declared artifact hashes, result-row identifiers, and wrapper-call accounting. Those checks establish consistency among supplied files and exposed counters only; they do not prove that the listed source produced the result or that no calls bypassed the wrapper. The SciPy integration is a single pinned smoke test, not an optimizer-performance experiment.
 
 ## Release status
 
-This source tree is the POCA v0.1.1 patch release prepared for the accompanying SoftwareX manuscript. It is based on public dpy3/POCA main commit 138aa27 (30 September 2026); the previously listed f3dbf12 base could not be verified in public history and is not claimed. The release includes the evaluator, tests, validation records, and manuscript-aligned package layout described in RELEASE_CANDIDATE_MANIFEST.txt. This patch standardizes manifest hashes by normalizing text line endings to LF while hashing binary files as exact bytes; v0.1.0 remains an earlier tag. The exact source snapshot is identified by Git tag v0.1.1. No DOI-backed reproducibility capsule has been deposited. The companion manuscript is a SoftwareX draft and has not been submitted.
+This folder contains the POCA v0.2.0 release based on the v0.1.1 baseline. The v0.1.1 tag remains available for the earlier bounded evaluation. The companion manuscript identifies this version and its data record after the release metadata is synchronized. No third-party source archive is redistributed here.
 
 ## Requirements
 
@@ -23,7 +23,13 @@ The example contains a failed source-provenance check alongside local passes for
 
 Run both retained unit-test modules with:
 
-    python -m unittest discover -s src -p "test_audit_cli*.py" -v
+    python -m unittest discover -s src -p "test_*.py" -v
+
+The complete local candidate suite contains 36 tests, including the original POCA evaluator tests and verifier-specific tests. Run the pinned SciPy integration into a new, empty output directory with:
+
+    python src/run_scipy_smoke.py --output-dir validation/scipy-smoke-local
+
+The smoke test compares logging-off and logging-on executions and checks wrapper calls against SciPy's exposed `nfev`. Its expected local path status is `INDETERMINATE`; it does not observe per-candidate acceptance.
 
 Run selected MATLAB validations from the repository root with MATLAB installed:
 
@@ -33,10 +39,12 @@ Run selected MATLAB validations from the repository root with MATLAB installed:
 
 ## Repository layout
 
-- src/ — command-line evaluator, schemas, tests, adapters, and processed case summaries.
+- src/ — command-line evaluator, bounded evidence verifier, smoke adapter, and tests.
 - examples/ — runnable JSON example.
-- spec/ — the documented POCA v3 node and edge specification.
-- validation/ — preregistration records, validation runners, and retained output files.
+- spec/ — the POCA v3 node/edge specification and v1 verifier input contracts.
+- validation/ — preregistration records, validation runners, and the local SciPy smoke output.
+- RELEASE_CANDIDATE_MANIFEST.txt — per-file SHA-256 list for the v0.2.0 release tree.
+- BASELINE_MANIFEST_v0.1.1.txt — preserved v0.1.1 manifest from the copied baseline.
 - source/figures/ — the three editable SVG figure masters and PDF exports used by manuscript Figures 2-4; Figure 1 is native TikZ in the LaTeX source.
 - source/figure_source_data/ — processed CSV records supporting Figures 3 and 4.
 - THIRD_PARTY_ORIGINS.md — origins and checksums for external algorithm archives used as evidence objects.
@@ -44,7 +52,7 @@ Run selected MATLAB validations from the repository root with MATLAB installed:
 
 ## Evidence boundaries
 
-The retained manuscript reports eight prespecified single-contract faults, 45 repeated clean-control records, nine records from one author-corrected L-SHADE 1.0.1 implementation through one author-written adapter, and 13 unit tests. The clean-control records repeat 15 task-seed combinations under three logging modes. These counts describe the tested records only. They are not estimates of population sensitivity, specificity, false-alarm rates, or cross-platform transfer.
+The inherited v0.1.1 study reports eight prespecified single-contract faults, 45 repeated clean-control records, and nine records from one author-corrected L-SHADE 1.0.1 implementation through one author-written adapter. The clean-control records repeat 15 task-seed combinations under three logging modes. The local v0.2.0 candidate adds 36 passing unit tests and one pinned SciPy smoke integration (48 wrapper calls matched 48 reported evaluations in the tested run). These counts describe only the tested cases; they are not estimates of population sensitivity, specificity, false-alarm rates, or cross-platform transfer.
 
 The L-SHADE result is compatibility evidence for one implementation and one adapter, not nine independent implementations. Third-party algorithm archives are not redistributed; consult THIRD_PARTY_ORIGINS.md and the original sources for provenance and licensing.
 
@@ -52,4 +60,4 @@ The L-SHADE result is compatibility evidence for one implementation and one adap
 
 Author-owned code and documentation are distributed under the MIT License. Third-party materials retain their stated licenses.
 
-For a publication, cite POCA v0.1.1 and identify the Git tag v0.1.1. No persistent archive DOI is available for this release; the manuscript states this limitation in its software metadata.
+This v0.2.0 release supersedes v0.1.1 for the verifier functionality. The v0.1.1 tag remains the baseline used for the earlier bounded evaluation. Author-generated data bundled with this release are licensed under CC BY 4.0 as specified in DATA_LICENSE.txt; software and documentation remain under MIT. Third-party source archives are not redistributed.
