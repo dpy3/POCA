@@ -3,6 +3,7 @@ Status: release tree prepared from the tested v0.2.0 candidate
 Release identifier: v0.2.0 (tag will identify the commit containing this tree)
 Base: v0.1.1 baseline; text-lf-v1 normalizes UTF-8 CRLF/CR to LF and binary-exact-v1 hashes exact bytes
 This manifest is excluded from its own file list to avoid self-reference
+byte-size is the size of the canonical bytes hashed
 SHA-256  hash-mode  relative-path  byte-size
 63c82d11443f6cd54798c710aaef7e0918d8a5e90630430baf3669640e3fae8f  binary-exact-v1  .gitattributes  45
 d2daa44c9bdbf5e6d017c858cf58e6fb1ed03faffc5f1ac2ff43734d086d0701  binary-exact-v1  .gitignore  53
@@ -15,11 +16,11 @@ faebbb70e4789dcc817a21fca07aac2cdfbe6a367a5255bafe5a4c073e64a2d3  text-lf-v1  RE
 3dd4e52d4fada46081bb9cf3164ca8b4bcb1f6b22dda40e6b9cf9f9140993bfa  text-lf-v1  source/figure_source_data/figure3_case_status.csv  272
 2886d53a76aa985225bb643a02464a099fadff2dc7ea61c9b28cb0ec1e2caf48  text-lf-v1  source/figure_source_data/figure4_instrumentation_cost.csv  386
 be12e7bacc5bed19de4648a28b55b5d7ebec07ce3aa73a3c4cc939180ddcd9c9  binary-exact-v1  source/figures/figure2_candidate_lineage.pdf  44042
-aa14684d720407be56529b9803a23c1638d3b7c5849b64132130577c226266dc  text-lf-v1  source/figures/figure2_candidate_lineage.svg  14490
+aa14684d720407be56529b9803a23c1638d3b7c5849b64132130577c226266dc  text-lf-v1  source/figures/figure2_candidate_lineage.svg  14177
 9d74bc74c5e36849753eb6fe3871c9d89314aeb80093e4f204c90cacb86b1a71  binary-exact-v1  source/figures/figure3_case_status.pdf  52858
-369c62afca21abd34aa5cae8a4719fef88af56fa08a93c806eec4ce97359b816  text-lf-v1  source/figures/figure3_case_status.svg  39483
+369c62afca21abd34aa5cae8a4719fef88af56fa08a93c806eec4ce97359b816  text-lf-v1  source/figures/figure3_case_status.svg  38593
 cf82b4aeea300d502246c005a3e4744bff414e79c39470babce8bae091524383  binary-exact-v1  source/figures/figure4_instrumentation_cost.pdf  46673
-2ab0f72475d7defdb73a3a428ce9092f10c0d01309b0c38428efd46ae74bf30e  text-lf-v1  source/figures/figure4_instrumentation_cost.svg  24807
+2ab0f72475d7defdb73a3a428ce9092f10c0d01309b0c38428efd46ae74bf30e  text-lf-v1  source/figures/figure4_instrumentation_cost.svg  24179
 37e15bddaf79e05000e134555766c075d2bf5aa6019a0c63ec2d1da40094b0d2  text-lf-v1  source/README.md  856
 595ec35e46de61c03c9084cf88c056e61369753fb881d9570a0a77df23cbb6e0  text-lf-v1  spec/poca_v3.json  1374
 0825542e06b45e757bfec02c8a8ba64ab7849fcf0ad358d22b57e6e3d3a2009a  text-lf-v1  spec/poca_verify_call_v1.schema.json  642
@@ -32,10 +33,10 @@ cd3fafcadf505d97beb17117667ee0bab841d006a096ded2f5f6829ff7709e63  text-lf-v1  sr
 c99661446f286c7c5cd06ab4255a29b3c4a84e2101834db86916abf03600eeec  text-lf-v1  src/audit_schema_v1.json  829
 59727baa8dd1cc43405380f30276c22231419391b33ed63b5cf51fd4007ccb95  text-lf-v1  src/audit_schema_v2.json  2261
 8ac4d972f8db3f6a91172393f62472d9f04279322582ae789fb837e6280a7a58  text-lf-v1  src/LSHADE_POSITIVE_EXTERNAL_PREREG_20260721.md  1466
-bec1867adf88169931b8718ebdb1b6d3a6a8ed5fdad261333168cc2f1371bc2e  text-lf-v1  src/results/clean_control_matrix.csv  336465
-1d298a051a2e12d48554a387d4f5d749f621fad5dc341981f4beea4b62ad415a  text-lf-v1  src/results/clean_control_summary.json  561
-63fb0f00959d64fe17dbfc6e8a526377669ded89c327739497c436e8d8c30dc6  text-lf-v1  src/results/external_case_audit.csv  304
-452d1914c7512fcbbb75697e93ed7781b2f9fe5ffb00ab213b173f41db9d1961  text-lf-v1  src/results/external_case_audit.json  2059
+bec1867adf88169931b8718ebdb1b6d3a6a8ed5fdad261333168cc2f1371bc2e  text-lf-v1  src/results/clean_control_matrix.csv  336419
+1d298a051a2e12d48554a387d4f5d749f621fad5dc341981f4beea4b62ad415a  text-lf-v1  src/results/clean_control_summary.json  530
+63fb0f00959d64fe17dbfc6e8a526377669ded89c327739497c436e8d8c30dc6  text-lf-v1  src/results/external_case_audit.csv  301
+452d1914c7512fcbbb75697e93ed7781b2f9fe5ffb00ab213b173f41db9d1961  text-lf-v1  src/results/external_case_audit.json  2002
 69e3363322d2fc81cbc0031be1471e621a2c97ec512592447d4db0b71880c75b  text-lf-v1  src/results/external_runnability_smoke_failure.md  501
 3b1d323255d4067af66725dece59b30ceb48770946282ee92e2e73f0ca877fe0  text-lf-v1  src/results/lshade_positive_external_20260721.csv  1111
 f30e5909d2591e03c50baedc0014134ee7359feb18e2fc3b73dba466c625c36b  text-lf-v1  src/results/lshade_positive_external_20260721.json  10473
@@ -56,14 +57,14 @@ bd3a45b1633fad5fc14174696324c01b746d1bd08f7f4d6ffd2684dcd9b5df25  binary-exact-v
 8eb448af1bf246435e79d046f2e64509ccc2887aad99a22b7e30832fe09d0aea  text-lf-v1  validation/LSHADE_CLEAN_CONTROL_PREREG_20260720.md  1059
 2fa34b79073902ce3afd5f19427fafd3bacd2a5ba234efc4165261add2af748f  text-lf-v1  validation/run_fault_injection_validation.m  11418
 8ac7fb8aa49e5191fed3e5fb7b355a4549dd1982ea9139a23295500735b46cbe  text-lf-v1  validation/run_lshade_clean_control.m  3208
-873af3203b68d04e683751ea13e35db8e0845bd57288b70f533514acb662150a  text-lf-v1  validation/scipy_smoke_20261119_candidate/audit_records.json  673
-10a2cb54e2359b431444a229ed32c6920f9845efb73d0ec1214f8bcf81564c14  text-lf-v1  validation/scipy_smoke_20261119_candidate/baseline_comparison.json  601
+873af3203b68d04e683751ea13e35db8e0845bd57288b70f533514acb662150a  text-lf-v1  validation/scipy_smoke_20261119_candidate/audit_records.json  650
+10a2cb54e2359b431444a229ed32c6920f9845efb73d0ec1214f8bcf81564c14  text-lf-v1  validation/scipy_smoke_20261119_candidate/baseline_comparison.json  580
 882cb4565744621b9e25c06d189f810fef13558c965658441de7f8f0d1683e6c  text-lf-v1  validation/scipy_smoke_20261119_candidate/calls.jsonl  7095
-1f0a6e2b70bb1a7400f03edcef09a27cdb108ee9d4c94eeca524159a45518dd5  text-lf-v1  validation/scipy_smoke_20261119_candidate/config.json  286
-0606ceba2dc789156df3631082933f34d522c21920f57847a50948d390bc849e  text-lf-v1  validation/scipy_smoke_20261119_candidate/manifest.json  2447
-acd01cc99ec6c67d8983d6cb6d8e275fcdb99275d4ce12445f225ff54e122c7a  text-lf-v1  validation/scipy_smoke_20261119_candidate/objective_spec.json  233
+1f0a6e2b70bb1a7400f03edcef09a27cdb108ee9d4c94eeca524159a45518dd5  text-lf-v1  validation/scipy_smoke_20261119_candidate/config.json  272
+0606ceba2dc789156df3631082933f34d522c21920f57847a50948d390bc849e  text-lf-v1  validation/scipy_smoke_20261119_candidate/manifest.json  2364
+acd01cc99ec6c67d8983d6cb6d8e275fcdb99275d4ce12445f225ff54e122c7a  text-lf-v1  validation/scipy_smoke_20261119_candidate/objective_spec.json  214
 9587c4969bf369d8cedc1382afdeb9848a35486a284f02bf5cb77a34d678de34  text-lf-v1  validation/scipy_smoke_20261119_candidate/results.csv  376
 3f00ab5dbe79ba49bcaf454821bca468f5dc662c0b3a46a165f4f260cfabe1ec  text-lf-v1  validation/scipy_smoke_20261119_candidate/runner.py  9337
-66c8e6b0546ac45dc2ab78fc44cadf84138ec4154961ce56f003e9d689f0f73b  text-lf-v1  validation/scipy_smoke_20261119_candidate/verify_report.json  6752
+66c8e6b0546ac45dc2ab78fc44cadf84138ec4154961ce56f003e9d689f0f73b  text-lf-v1  validation/scipy_smoke_20261119_candidate/verify_report.json  6519
 7194bc115cd57891089eebfaa82aa6703fdf1ed142e55135833aa72e85afbebd  text-lf-v1  validation/SCIPY_SMOKE_PROTOCOL_20261119.md  2123
 a6187681395e91c10205fe023658c9b64d6913db350595aa58b746cc101f69c2  text-lf-v1  validation/VALIDATION_RESULT_20260720.md  1779
