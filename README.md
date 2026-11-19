@@ -1,5 +1,11 @@
 # POCA — Prerequisite-Ordered Claim-Admissibility Protocol
 
+## Current software release
+
+The software version evaluated in the current POCA manuscript is v0.2.0 (tag `v0.2.0`, commit `2007be269c1c8ce41c69eaf2c2057a338d2fbec6`). Use the [v0.2.0 source tree](https://github.com/dpy3/POCA/tree/v0.2.0) for the verifier, tests, and versioned author-generated records. Those records are licensed under CC BY 4.0; no separate data DOI is assigned. The `main` branch below is a historical research snapshot and does not contain v0.2.0.
+
+## Historical main-branch snapshot
+
 POCA is a claim-admissibility protocol for assessing adaptive optimizers.
 It separates **local diagnostic evidence** (what was observed at one layer)
 from **effective scientific claims** (what may be stated after all
@@ -18,9 +24,8 @@ The non-compensation rule preserves downstream local diagnostics while
 blocking a dependent claim when one of that claim's transitive prerequisites fails.
 Independent branches are evaluated separately.
 
-Companion manuscript: *An Executable Claim-Dependency Audit Protocol for
-Differential Evolution: Four Case Families and Five Evidence Objects*
-(submitted to Applied Soft Computing, 2026).
+Companion manuscript: *POCA: A command-line tool for auditing evidence in
+differential-evolution experiments*; its tested software version is v0.2.0.
 
 This repository contains the executable protocol, its tests, the contract-level
 regression entry points, and the frozen figure-source records used by the manuscript.
