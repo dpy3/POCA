@@ -12,7 +12,7 @@ d2daa44c9bdbf5e6d017c858cf58e6fb1ed03faffc5f1ac2ff43734d086d0701  binary-exact-v
 4edbcc8e5fce6c98ad6b07cbda2b217d1300c793bf95dc6a146b9f9369d935b0  text-lf-v1  examples/branching_case.json  518
 7434158c4203ce970c220a909162a53fcb80e18ed6a5196f06f57983ae9c23c1  text-lf-v1  LICENSE.txt  1319
 26d3ae4af20c7c9409c1b52169aa0750eb8cf816f7d5b2cf37e173bc47595637  text-lf-v1  README.md  5044
-faebbb70e4789dcc817a21fca07aac2cdfbe6a367a5255bafe5a4c073e64a2d3  text-lf-v1  REVISION_STATUS.md  4392
+3bf67c7d00affd044bd36fb99756cb077a1564c5e4dc5518c0c2a22386c25398  text-lf-v1  REVISION_STATUS.md  4671
 3dd4e52d4fada46081bb9cf3164ca8b4bcb1f6b22dda40e6b9cf9f9140993bfa  text-lf-v1  source/figure_source_data/figure3_case_status.csv  272
 2886d53a76aa985225bb643a02464a099fadff2dc7ea61c9b28cb0ec1e2caf48  text-lf-v1  source/figure_source_data/figure4_instrumentation_cost.csv  386
 be12e7bacc5bed19de4648a28b55b5d7ebec07ce3aa73a3c4cc939180ddcd9c9  binary-exact-v1  source/figures/figure2_candidate_lineage.pdf  44042
