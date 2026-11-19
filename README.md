@@ -104,9 +104,7 @@ The legacy v1 clean-control outputs retain fields named `false_positive`,
 are observed clean-execution alarm fields, not estimates of classifier
 specificity, accuracy, or a general false-positive rate. Processed summaries,
 schemas, tests, preregistrations, and figure-source records are included here.
-Raw execution logs and archived runner
-configurations are retained by the authors and available on reasonable
-request.
+The historical snapshot above does not define data availability for v0.2.0. Consult the tagged release for the records actually distributed; no general availability of additional raw logs on request is claimed.
 
 ## License and third-party material
 
