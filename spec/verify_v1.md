@@ -1,6 +1,6 @@
 # POCA evidence verification v1.0
 
-**Status:** local design freeze for a v0.2.0 prototype, 2026-11-19. This specification is not an implementation result or a submission claim.
+**Status:** release specification for the v0.2.1 patch release, 2026-11-20. This specification describes the implemented v1 verifier boundary; it is not a performance claim.
 
 ## Purpose and boundary
 
@@ -96,7 +96,7 @@ Faults count as held-out only if an independent person freezes their specificati
 
 ## Release and manuscript rules
 
-The v0.1.1 package remains unchanged as the baseline. A passing implementation is a local v0.2.0 candidate; a version label is not a public release until the source tree, clean-install tests, manifests, documentation, and author approval are complete. No public push or release is part of this design freeze.
+The v0.2.0 package remains unchanged as the preceding release, and the v0.1.1 package remains the earlier baseline. The v0.2.1 tag identifies the source tree, clean-install tests, manifests, and documentation checked for this patch release. This release status does not imply optimizer performance or authenticated provenance.
 
 The paper may describe only implemented checks and observed results. Use phrases such as manifest consistency, row-identifier association, and wrapper-call reconciliation. Do not use result-row binding, authenticated provenance, anti-tamper verification, complete candidate tracing, or causal attribution for v1.0.
 
