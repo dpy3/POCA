@@ -2,7 +2,7 @@
 
 ## Current software release
 
-The software version evaluated in the current POCA manuscript is v0.2.0 (tag `v0.2.0`, commit `2007be269c1c8ce41c69eaf2c2057a338d2fbec6`). Use the [v0.2.0 source tree](https://github.com/dpy3/POCA/tree/v0.2.0) for the verifier, tests, and versioned author-generated records. Those records are licensed under CC BY 4.0; no separate data DOI is assigned. The `main` branch below is a historical research snapshot and does not contain v0.2.0.
+The software version evaluated in the current POCA manuscript is v0.2.2 (tag `v0.2.2`, commit `05745cad9a44b9943d8db8db535643e45ef5b333`). Use the [v0.2.2 source tree](https://github.com/dpy3/POCA/tree/v0.2.2) for the verifier, tests, and versioned author-generated records. Those records are licensed under CC BY 4.0; no separate data DOI is assigned. The `main` branch below is a historical research snapshot; the released SoftwareX package is maintained at the v0.2.2 tag.
 
 ## Historical main-branch snapshot
 
