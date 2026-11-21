@@ -1,0 +1,233 @@
+{
+  "artifact_checks": [
+    {
+      "expected_sha256": "acd01cc99ec6c67d8983d6cb6d8e275fcdb99275d4ce12445f225ff54e122c7a",
+      "hash_mode": "text-lf-v1",
+      "observed_sha256": "acd01cc99ec6c67d8983d6cb6d8e275fcdb99275d4ce12445f225ff54e122c7a",
+      "path": "objective_spec.json",
+      "reason_code": "HASH_MATCH",
+      "role": "source",
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "3f00ab5dbe79ba49bcaf454821bca468f5dc662c0b3a46a165f4f260cfabe1ec",
+      "hash_mode": "text-lf-v1",
+      "observed_sha256": "3f00ab5dbe79ba49bcaf454821bca468f5dc662c0b3a46a165f4f260cfabe1ec",
+      "path": "runner.py",
+      "reason_code": "HASH_MATCH",
+      "role": "runner",
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "1f0a6e2b70bb1a7400f03edcef09a27cdb108ee9d4c94eeca524159a45518dd5",
+      "hash_mode": "text-lf-v1",
+      "observed_sha256": "1f0a6e2b70bb1a7400f03edcef09a27cdb108ee9d4c94eeca524159a45518dd5",
+      "path": "config.json",
+      "reason_code": "HASH_MATCH",
+      "role": "configuration",
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "9587c4969bf369d8cedc1382afdeb9848a35486a284f02bf5cb77a34d678de34",
+      "hash_mode": "text-lf-v1",
+      "observed_sha256": "9587c4969bf369d8cedc1382afdeb9848a35486a284f02bf5cb77a34d678de34",
+      "path": "results.csv",
+      "reason_code": "HASH_MATCH",
+      "role": "results",
+      "status": "PASS"
+    },
+    {
+      "expected_sha256": "882cb4565744621b9e25c06d189f810fef13558c965658441de7f8f0d1683e6c",
+      "hash_mode": "text-lf-v1",
+      "observed_sha256": "882cb4565744621b9e25c06d189f810fef13558c965658441de7f8f0d1683e6c",
+      "path": "calls.jsonl",
+      "reason_code": "HASH_MATCH",
+      "role": "call_log",
+      "status": "PASS"
+    }
+  ],
+  "campaign_checks": [],
+  "campaign_id": "scipy-smoke-20261119",
+  "engine": {
+    "name": "scipy.optimize.differential_evolution",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.7",
+    "version": "1.16.2"
+  },
+  "runs": [
+    {
+      "audit_record": {
+        "budget": "PASS",
+        "case_id": "scipy-smoke-20261119:scipy-smoke-logged",
+        "control": "NOT_TESTED",
+        "dimension": 3,
+        "identity": "PASS",
+        "incremental_value": "NOT_TESTED",
+        "logging_mode": "objective-call-jsonl",
+        "observer": "NOT_TESTED",
+        "path": "INDETERMINATE",
+        "replay": "NOT_TESTED",
+        "reported_fe": 48,
+        "runnability": "PASS",
+        "runner_id": "poca-scipy-smoke-v1",
+        "seed": "20261119",
+        "source_id": "sphere-objective-spec-v1",
+        "source_sha256": "acd01cc99ec6c67d8983d6cb6d8e275fcdb99275d4ce12445f225ff54e122c7a",
+        "target_fe": 48,
+        "task_id": "sphere-3d",
+        "true_fe": 48
+      },
+      "campaign_id": "scipy-smoke-20261119",
+      "derived": {
+        "blocked_by": [
+          {
+            "condition": "L3",
+            "status": "INDETERMINATE"
+          },
+          {
+            "condition": "L4",
+            "status": "NOT_TESTED"
+          },
+          {
+            "condition": "L5",
+            "status": "NOT_TESTED"
+          },
+          {
+            "condition": "VO",
+            "status": "NOT_TESTED"
+          },
+          {
+            "condition": "VR",
+            "status": "NOT_TESTED"
+          }
+        ],
+        "blocked_promotion_cases": [
+          "L2"
+        ],
+        "case_id": "scipy-smoke-20261119:scipy-smoke-logged",
+        "claim_frontier": [
+          "L1"
+        ],
+        "control_claim_admissible": false,
+        "effective_claim_status": {
+          "L0": "PASS",
+          "L1": "PASS",
+          "L2": "BLOCKED_BY_UPSTREAM",
+          "L3": "BLOCKED_BY_UPSTREAM",
+          "L4": "BLOCKED_BY_UPSTREAM",
+          "L5": "BLOCKED_BY_UPSTREAM",
+          "VO": "NOT_TESTED",
+          "VR": "NOT_TESTED"
+        },
+        "execution_claim_admissible": false,
+        "graph": {
+          "edges": [
+            [
+              "L0",
+              "L1"
+            ],
+            [
+              "L0",
+              "L2"
+            ],
+            [
+              "VO",
+              "L2"
+            ],
+            [
+              "L0",
+              "L3"
+            ],
+            [
+              "VO",
+              "L3"
+            ],
+            [
+              "L0",
+              "L4"
+            ],
+            [
+              "L1",
+              "L4"
+            ],
+            [
+              "L2",
+              "L4"
+            ],
+            [
+              "L3",
+              "L4"
+            ],
+            [
+              "L4",
+              "L5"
+            ]
+          ],
+          "nodes": {
+            "L0": "execution_feasibility",
+            "L1": "result_provenance",
+            "L2": "evaluator_boundary_budget_identity",
+            "L3": "evaluated_candidate_lineage",
+            "L4": "control_comparability",
+            "L5": "incremental_value",
+            "VO": "observer_non_interference",
+            "VR": "replay_validity"
+          }
+        },
+        "incremental_value_claim_admissible": false,
+        "local_status": {
+          "L0": "PASS",
+          "L1": "PASS",
+          "L2": "PASS",
+          "L3": "INDETERMINATE",
+          "L4": "NOT_TESTED",
+          "L5": "NOT_TESTED",
+          "VO": "NOT_TESTED",
+          "VR": "NOT_TESTED"
+        },
+        "minimal_blockers": {
+          "L2": [
+            "VO"
+          ],
+          "L3": [
+            "VO"
+          ],
+          "L4": [
+            "VO"
+          ],
+          "L5": [
+            "VO"
+          ]
+        },
+        "protocol_properties": {
+          "blocking_monotonicity": true,
+          "evidence_conservation": true,
+          "idempotence": true,
+          "versioned_repair_record": {
+            "case_id_versioned": false,
+            "required": true
+          }
+        }
+      },
+      "observed_wrapper_calls": 48,
+      "parsed_call_record_count": 48,
+      "reasons": [],
+      "result_row_id": "scipy-row-logged",
+      "row_status": "PASS",
+      "run_id": "scipy-smoke-logged",
+      "statuses": {
+        "budget": "PASS",
+        "control": "NOT_TESTED",
+        "identity": "PASS",
+        "incremental_value": "NOT_TESTED",
+        "observer": "NOT_TESTED",
+        "path": "INDETERMINATE",
+        "replay": "NOT_TESTED",
+        "runnability": "PASS"
+      }
+    }
+  ],
+  "schema_version": "poca-verify-1.0",
+  "status": "INDETERMINATE",
+  "trust_boundary": "Manifest consistency is not authentication or proof of execution provenance."
+}

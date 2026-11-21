@@ -1,0 +1,21 @@
+{
+  "baseline_nfev": 48,
+  "call_indices_contiguous": true,
+  "conditional_maximum_call_count": 48,
+  "observer_comparison_pass": true,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python_version": "3.13.7",
+  "same_best_position": true,
+  "same_best_value": true,
+  "same_final_population": true,
+  "same_nfev": true,
+  "same_nit": true,
+  "same_population_energies": true,
+  "same_rng_after": true,
+  "same_rng_before": true,
+  "scipy_version": "1.16.2",
+  "traced_nfev": 48,
+  "traced_wrapper_calls": 48,
+  "within_conditional_maximum": true,
+  "wrapper_matches_nfev": true
+}

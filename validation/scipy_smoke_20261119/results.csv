@@ -1,0 +1,2 @@
+campaign_id,run_id,result_row_id,source_id,source_sha256,runner_id,task_id,dimension,seed,logging_mode,run_status,target_fe,reported_fe,solver_nfev
+scipy-smoke-20261119,scipy-smoke-logged,scipy-row-logged,sphere-objective-spec-v1,acd01cc99ec6c67d8983d6cb6d8e275fcdb99275d4ce12445f225ff54e122c7a,poca-scipy-smoke-v1,sphere-3d,3,20261119,objective-call-jsonl,completed,48,48,48

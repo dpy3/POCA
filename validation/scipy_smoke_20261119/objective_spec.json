@@ -1,0 +1,19 @@
+{
+  "bounds": [
+    [
+      -5.0,
+      5.0
+    ],
+    [
+      -5.0,
+      5.0
+    ],
+    [
+      -5.0,
+      5.0
+    ]
+  ],
+  "definition": "sum(x_i squared)",
+  "dimension": 3,
+  "objective_id": "sphere-3d-v1"
+}

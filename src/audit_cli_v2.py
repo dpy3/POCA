@@ -2,6 +2,7 @@
 """POCA v3 DAG evaluator for prerequisite-ordered claim admissibility."""
 
 import argparse
+from collections import deque
 import json
 import sys
 from pathlib import Path
@@ -47,10 +48,10 @@ def _graph(record):
     for parent, child in edges:
         indegree[child] += 1
         children[parent].append(child)
-    queue = [node for node, degree in indegree.items() if degree == 0]
+    queue = deque(node for node, degree in indegree.items() if degree == 0)
     visited = []
     while queue:
-        node = queue.pop(0)
+        node = queue.popleft()
         visited.append(node)
         for child in children[node]:
             indegree[child] -= 1
@@ -83,10 +84,10 @@ def _derive_effective(local, graph=None):
         parents[child].append(parent)
         children[parent].append(child)
     indegree = {node: len(parents[node]) for node in nodes}
-    queue = [node for node in nodes if indegree[node] == 0]
+    queue = deque(node for node in nodes if indegree[node] == 0)
     effective = {}
     while queue:
-        node = queue.pop(0)
+        node = queue.popleft()
         local_value = local.get(node)
         prerequisites = [effective[parent] for parent in parents[node]]
         effective[node] = (local_value if all(value == "PASS" for value in prerequisites)
@@ -104,18 +105,18 @@ def _minimal_blockers(target, local, graph):
     for parent, child in graph["edges"]:
         parents[child].append(parent)
         children[parent].append(child)
-    bad = {node for node in _ancestors(target, parents)
+    bad = {node for node in (_ancestors(target, parents) | {target})
            if local.get(node) in LOCAL_STATUS - {"PASS"}}
-    def descendants(node):
-        found, stack = set(), list(children.get(node, ()))
+    def ancestors(node):
+        found, stack = set(), list(parents.get(node, ()))
         while stack:
             current = stack.pop()
             if current in found:
                 continue
             found.add(current)
-            stack.extend(children.get(current, ()))
+            stack.extend(parents.get(current, ()))
         return found
-    return sorted(node for node in bad if not (bad & descendants(node)))
+    return sorted(node for node in bad if not (bad & ancestors(node)))
 
 
 def _frontier(effective, graph):
@@ -138,15 +139,6 @@ def _blocking_monotone(local, graph, effective):
         children[parent].append(child)
     for failed in (node for node in graph["nodes"] if local.get(node) != "PASS"):
         changed = dict(local)
-        stack = list(children[failed])
-        while stack:
-            node = stack.pop()
-            changed[node] = "PASS"
-            stack.extend(children[node])
-        revised = _derive_effective(changed, graph)
-        for node in _ancestors(failed, parents):
-            if effective.get(node) == BLOCKED and revised.get(node) == "PASS":
-                return False
         descendants = set()
         stack = list(children[failed])
         while stack:
@@ -154,7 +146,12 @@ def _blocking_monotone(local, graph, effective):
             if node in descendants:
                 continue
             descendants.add(node)
+            changed[node] = "PASS"
             stack.extend(children[node])
+        revised = _derive_effective(changed, graph)
+        for node in _ancestors(failed, parents):
+            if effective.get(node) == BLOCKED and revised.get(node) == "PASS":
+                return False
         for node in descendants:
             if effective.get(node) == BLOCKED and revised.get(node) == "PASS":
                 return False

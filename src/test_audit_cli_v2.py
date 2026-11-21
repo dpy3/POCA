@@ -81,7 +81,7 @@ class AuditCliV3Tests(unittest.TestCase):
         graph = {"nodes": {"A": "a", "B": "b", "D": "d"},
                  "edges": [["A", "B"], ["B", "D"], ["A", "D"]]}
         item = record(graph=graph, local_status={"A": "FAIL", "B": "FAIL", "D": "PASS"})
-        self.assertEqual(evaluate(item)["minimal_blockers"]["D"], ["B"])
+        self.assertEqual(evaluate(item)["minimal_blockers"]["D"], ["A"])
 
     def test_idempotence_and_versioned_repair_record(self):
         result = evaluate(record(case_id_version="v2"))

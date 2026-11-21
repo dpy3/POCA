@@ -1,0 +1,23 @@
+[
+  {
+    "budget": "PASS",
+    "case_id": "scipy-smoke-20261119:scipy-smoke-logged",
+    "control": "NOT_TESTED",
+    "dimension": 3,
+    "identity": "PASS",
+    "incremental_value": "NOT_TESTED",
+    "logging_mode": "objective-call-jsonl",
+    "observer": "NOT_TESTED",
+    "path": "INDETERMINATE",
+    "replay": "NOT_TESTED",
+    "reported_fe": 48,
+    "runnability": "PASS",
+    "runner_id": "poca-scipy-smoke-v1",
+    "seed": "20261119",
+    "source_id": "sphere-objective-spec-v1",
+    "source_sha256": "acd01cc99ec6c67d8983d6cb6d8e275fcdb99275d4ce12445f225ff54e122c7a",
+    "target_fe": 48,
+    "task_id": "sphere-3d",
+    "true_fe": 48
+  }
+]

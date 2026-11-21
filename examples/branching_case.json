@@ -1,0 +1,21 @@
+{
+  "case_id": "branching-demo-v1",
+  "source_id": "example-source",
+  "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "runner_id": "example-runner",
+  "task_id": "sphere",
+  "dimension": 2,
+  "seed": 1,
+  "logging_mode": "accepted_only",
+  "target_fe": 100,
+  "true_fe": 100,
+  "reported_fe": 100,
+  "runnability": "PASS",
+  "identity": "FAIL",
+  "budget": "PASS",
+  "path": "PASS",
+  "observer": "PASS",
+  "replay": "PASS",
+  "control": "PASS",
+  "incremental_value": "PASS"
+}

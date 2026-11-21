@@ -1,0 +1,9 @@
+Author-generated research data and processed records distributed with this
+release are licensed under the Creative Commons Attribution 4.0 International
+License (CC BY 4.0).
+
+This data license does not apply to software or documentation covered by
+LICENSE.txt, or to third-party material identified in THIRD_PARTY_ORIGINS.md.
+Third-party source archives are not redistributed in this package.
+
+License deed: https://creativecommons.org/licenses/by/4.0/
