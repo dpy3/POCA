@@ -24,8 +24,7 @@ The non-compensation rule preserves downstream local diagnostics while
 blocking a dependent claim when one of that claim's transitive prerequisites fails.
 Independent branches are evaluated separately.
 
-Companion manuscript: *POCA: A command-line tool for auditing evidence in
-differential-evolution experiments*; its tested software version is v0.2.0.
+Companion manuscript: *POCA: A manifest verifier and claim-dependency evaluator for differential-evolution experiments*; its tested software version is v0.2.2.
 
 This repository contains the executable protocol, its tests, the contract-level
 regression entry points, and the frozen figure-source records used by the manuscript.
